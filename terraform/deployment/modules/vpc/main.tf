@@ -60,11 +60,11 @@ resource "aws_route_table" "pb_rt" {
 resource "aws_route_table_association" "pb_rt_as" {
   count          = length(aws_subnet.public_subnet)
   subnet_id      = aws_subnet.public_subnet[count.index].id
-  route_table_id = aws_route_table.pb_rt
+  route_table_id = aws_route_table.pb_rt.id
 }
 # Route Table - Private
 resource "aws_route_table" "pr_rt" {
-  count = length(aws_nat_gateway.nat_gw)
+  count  = length(aws_nat_gateway.nat_gw)
   vpc_id = aws_vpc.main.id
 
   route {
@@ -79,7 +79,7 @@ resource "aws_route_table" "pr_rt" {
 resource "aws_route_table_association" "pr_rt_as" {
   count          = length(aws_subnet.private_subnet)
   subnet_id      = aws_subnet.private_subnet[count.index].id
-  route_table_id = aws_route_table.pr_rt
+  route_table_id = aws_route_table.pr_rt.id
 }
 
 # Elastic IP
