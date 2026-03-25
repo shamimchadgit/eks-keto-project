@@ -13,18 +13,23 @@ module "eks" {
     kube-proxy             = {}
     vpc-cni                = {
       before_compute = true
+      resolve_conflicts_on_create = "OVERWRITE"
     }
+    aws-ebs-csi-driver = {}
   }
 
   # Optional
   endpoint_public_access = true
+  endpoint_public_access_cidrs = ["0.0.0.0/0"]
 
   # Optional: Adds the current caller identity as an administrator via cluster access entry
   enable_cluster_creator_admin_permissions = true
 
   vpc_id                   = var.vpc_id
   subnet_ids               = var.private_subnet_ids
-  control_plane_subnet_ids = ["subnet-xyzde987", "subnet-slkjf456", "subnet-qeiru789"]
+  control_plane_subnet_ids = var.public_subnet_ids
+
+  enable_irsa = true
 
   # EKS Managed Node Group(s)
   eks_managed_node_groups = {
