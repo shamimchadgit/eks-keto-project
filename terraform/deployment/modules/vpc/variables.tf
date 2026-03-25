@@ -14,3 +14,4 @@ variable "private_subnets_cidrs" {
   description = "CIDR blocks for my 2 private subnets"
   default     = ["10.0.3.0/24", "10.0.4.0/24"]
 }
+
