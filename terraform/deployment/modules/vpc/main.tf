@@ -45,7 +45,7 @@ resource "aws_internet_gateway" "igw" {
   }
 }
 # Route Table - Public
-resource "aws_route_table" "pb_rt" {
+resource "aws_route_table" "public_rt" {
   vpc_id = aws_vpc.main.id
 
   route {
@@ -57,14 +57,14 @@ resource "aws_route_table" "pb_rt" {
   }
 }
 # Route Table Association - Public
-resource "aws_route_table_association" "pb_rt_as" {
-  count          = length(aws_subnet.public_subnet)
+resource "aws_route_table_association" "public_rt_as" {
+  count          = length(var.public_subnets_cidrs)
   subnet_id      = aws_subnet.public_subnet[count.index].id
-  route_table_id = aws_route_table.pb_rt[count.index].id
+  route_table_id = aws_route_table.public_rt.id
 }
 # Route Table - Private
-resource "aws_route_table" "pr_rt" {
-  count  = length(aws_nat_gateway.nat_gw)
+resource "aws_route_table" "private_rt" {
+  count = length(aws_nat_gateway.nat_gw)  
   vpc_id = aws_vpc.main.id
 
   route {
@@ -72,14 +72,14 @@ resource "aws_route_table" "pr_rt" {
     nat_gateway_id = aws_nat_gateway.nat_gw[count.index].id
   }
   tags = {
-    Name = "private-rt"
+    Name = "private-rt-${count.index}"
   }
 }
 # Route Table Association - Private
-resource "aws_route_table_association" "pr_rt_as" {
-  count          = length(aws_subnet.private_subnet)
+resource "aws_route_table_association" "private_rt_as" {
+  count          = length(var.private_subnets_cidrs)
   subnet_id      = aws_subnet.private_subnet[count.index].id
-  route_table_id = aws_route_table.pr_rt[count.index].id
+  route_table_id = aws_route_table.private_rt[count.index].id
 }
 
 # Elastic IP
@@ -93,7 +93,7 @@ resource "aws_eip" "nat_eip" {
 }
 # NAT Gateway
 resource "aws_nat_gateway" "nat_gw" {
-  count         = length(aws_subnet.public_subnet)
+  count         = length(var.public_subnets_cidrs)
   allocation_id = aws_eip.nat_eip[count.index].id
   subnet_id     = aws_subnet.public_subnet[count.index].id
 
