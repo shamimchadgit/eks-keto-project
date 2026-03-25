@@ -64,11 +64,12 @@ resource "aws_route_table_association" "pb_rt_as" {
 }
 # Route Table - Private
 resource "aws_route_table" "pr_rt" {
+  count = length(aws_nat_gateway.nat_gw)
   vpc_id = aws_vpc.main.id
 
   route {
     cidr_block     = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.nat_gw.id
+    nat_gateway_id = aws_nat_gateway.nat_gw[count.index].id
   }
   tags = {
     Name = "private-rt"
@@ -83,6 +84,7 @@ resource "aws_route_table_association" "pr_rt_as" {
 
 # Elastic IP
 resource "aws_eip" "nat_eip" {
+  count  = length(aws_subnet.public_subnet)
   domain = "vpc"
 
   tags = {
@@ -91,11 +93,12 @@ resource "aws_eip" "nat_eip" {
 }
 # NAT Gateway
 resource "aws_nat_gateway" "nat_gw" {
-  allocation_id = aws_eip.nat_eip.id
+  count         = length(aws_subnet.public_subnet)
+  allocation_id = aws_eip.nat_eip[count.index].id
   subnet_id     = aws_subnet.public_subnet[count.index].id
 
   tags = {
-    Name = "nat-gateway"
+    Name = "nat-gateway-${count.index}"
   }
   depends_on = [aws_internet_gateway.igw]
 }
