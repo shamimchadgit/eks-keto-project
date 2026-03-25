@@ -13,3 +13,8 @@ variable "private_subnet_ids" {
     type = list(string)
     description = "Private subnet worker nodes will run in"
 }
+
+variable "public_subnet_ids" {
+    type = list(string)
+    description = "Public subnet control plane will run in"
+}
