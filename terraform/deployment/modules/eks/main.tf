@@ -6,20 +6,20 @@ module "eks" {
   kubernetes_version = "1.33"
 
   addons = {
-    coredns                = {}
+    coredns = {}
     eks-pod-identity-agent = {
       before_compute = true
     }
-    kube-proxy             = {}
-    vpc-cni                = {
-      before_compute = true
+    kube-proxy = {}
+    vpc-cni = {
+      before_compute              = true
       resolve_conflicts_on_create = "OVERWRITE"
     }
     aws-ebs-csi-driver = {}
   }
 
   # Optional
-  endpoint_public_access = true
+  endpoint_public_access       = true
   endpoint_public_access_cidrs = ["0.0.0.0/0"]
 
   # Optional: Adds the current caller identity as an administrator via cluster access entry
