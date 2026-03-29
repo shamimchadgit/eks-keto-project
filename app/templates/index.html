@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keto Macro Targets | Daily Goals</title>
+    
+    <link rel="icon" type="image/jpeg" href="{{ url_for('static', path='logo.jpeg') }}">
+
+    <style>
+        :root {
+            --primary-green: #00b894;
+            --dark-blue: #2c3e50;
+            --light-bg: #f0f2f5;
+            --accent-orange: #fab1a0;
+        }
+
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            background: var(--light-bg); 
+            display: flex; 
+            justify-content: center; 
+            padding: 20px;
+            margin: 0;
+        }
+
+        .main-wrapper { 
+            display: flex; 
+            flex-direction: row;
+            gap: 25px; 
+            max-width: 1000px; 
+            width: 100%; 
+            align-items: flex-start; 
+            margin-top: 40px;
+        }
+
+        /* Responsive stack for mobile devices */
+        @media (max-width: 850px) {
+            .main-wrapper { flex-direction: column; align-items: center; }
+            .info-box { width: 100% !important; box-sizing: border-box; }
+        }
+
+        .card { 
+            background: white; 
+            padding: 2.5rem; 
+            border-radius: 20px; 
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
+            flex: 1; 
+            width: 100%;
+        }
+
+        .logo-container { 
+            text-align: center; 
+            margin-bottom: 30px; 
+        }
+        
+        .logo { 
+            max-width: 240px; /* Larger logo size */
+            width: 100%;
+            height: auto;
+            border-radius: 15px; 
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.15));
+            transition: transform 0.3s ease;
+        }
+        
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        h2 { 
+            color: var(--dark-blue); 
+            text-align: center; 
+            margin-bottom: 2rem; 
+            border-bottom: 2px solid var(--primary-green); 
+            display: inline-block; 
+            width: 100%; 
+            padding-bottom: 10px; 
+            font-size: 1.8rem;
+        }
+        
+        label { display: block; margin-top: 15px; font-weight: 600; color: #555; font-size: 0.9rem; }
+        
+        input, select, button { 
+            width: 100%; 
+            padding: 14px; 
+            margin: 8px 0; 
+            border: 1px solid #dcdde1; 
+            border-radius: 12px; 
+            box-sizing: border-box; 
+            font-size: 1rem;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: var(--primary-green);
+            box-shadow: 0 0 0 4px rgba(0, 184, 148, 0.1);
+        }
+
+        button { 
+            background: var(--primary-green); 
+            color: white; 
+            border: none; 
+            cursor: pointer; 
+            font-weight: 700; 
+            margin-top: 25px;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+        }
+
+        button:hover { background: #00a887; box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3); }
+
+        .results { 
+            background: #f1fcf6; 
+            border: 2px solid var(--primary-green);
+            padding: 20px; 
+            margin-top: 30px; 
+            border-radius: 12px; 
+        }
+
+        .results h4 { margin: 0 0 15px 0; color: var(--dark-blue); font-size: 1.2rem; }
+        
+        .macro-display { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr 1fr; 
+            gap: 15px; 
+            text-align: center; 
+        }
+        
+        .macro-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .macro-val { font-size: 1.4rem; font-weight: 800; color: var(--primary-green); display: block; }
+        .macro-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Sidebar info box */
+        .info-box { 
+            background: var(--dark-blue); 
+            color: white; 
+            padding: 30px; 
+            border-radius: 20px; 
+            width: 320px; 
+            font-size: 0.95rem; 
+            line-height: 1.7;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .info-box h3 { color: var(--accent-orange); margin-top: 0; font-size: 1.4rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; }
+        .info-box ul { padding-left: 20px; margin-top: 20px; }
+        .info-box li { margin-bottom: 15px; }
+        .highlight { color: var(--primary-green); font-weight: bold; }
+        
+        .footer-tip {
+            background: rgba(255,255,255,0.08); 
+            padding: 15px; 
+            border-radius: 10px; 
+            font-size: 0.85rem;
+            margin-top: 25px;
+            border-left: 3px solid var(--accent-orange);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="card">
+            <div class="logo-container">
+                <img src="{{ url_for('static', path='logo.jpeg') }}" alt="Keto Macro Targets Logo" class="logo">
+            </div>
+            
+            <h2>Keto Macro Targets</h2>
+            
+            <form method="post">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label>Weight (kg)</label>
+                        <input type="number" step="0.1" name="weight" placeholder="Weight" required>
+                    </div>
+                    <div>
+                        <label>Height (cm)</label>
+                        <input type="number" name="height" placeholder="Height" required>
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div>
+                        <label>Age</label>
+                        <input type="number" name="age" placeholder="Age" required>
+                    </div>
+                    <div>
+                        <label>Gender</label>
+                        <select name="gender">
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <label>Activity Level</label>
+                <select name="activity">
+                    <option value="1.2">Sedentary (Little to no exercise)</option>
+                    <option value="1.375">Lightly Active (1-2 days/week)</option>
+                    <option value="1.55">Moderately Active (3-5 days/week)</option>
+                    <option value="1.725">Very Active (6-7 days/week)</option>
+                </select>
+
+                <label>Daily Net Carb Limit</label>
+                <select name="net_carbs" style="border: 2px solid var(--accent-orange);">
+                    <option value="20">20g (Strict - Fast Results)</option>
+                    <option value="30">30g (Moderate Keto)</option>
+                    <option value="50">50g (Maintenance / Active Users)</option>
+                </select>
+                
+                <button type="submit">CALCULATE DAILY GOALS</button>
+            </form>
+
+            {% if results %}
+            <div class="results">
+                <h4>Your Personalised Targets:</h4>
+                <div style="margin-bottom: 15px; font-weight: 600;">Maintenance Calories: <span style="color:var(--primary-green)">{{ results.tdee }} kcal</span></div>
+                <div class="macro-display">
+                    <div class="macro-item"><span class="macro-val">{{ results.fat_g }}g</span><span class="macro-label">Fat</span></div>
+                    <div class="macro-item"><span class="macro-val">{{ results.protein_g }}g</span><span class="macro-label">Protein</span></div>
+                    <div class="macro-item"><span class="macro-val">{{ results.carb_g }}g</span><span class="macro-label">Net Carbs</span></div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="info-box">
+            <h3>Why these targets?</h3>
+            <p>To achieve <span class="highlight">Ketosis</span>, your body must shift from burning glucose (sugar) to burning ketones (fat). This requires strict insulin management.</p>
+            
+            <ul>
+                <li><strong>Net Carbs:</strong> These are carbs that impact blood sugar. Total Carbs minus Fiber = Net Carbs.</li>
+                <li><strong>Protein:</strong> Set at 1g per kg of body weight to preserve muscle while keeping insulin stable.</li>
+                <li><strong>Fat:</strong> Your energy source! Adjust fat intake to satisfy hunger once you've hit your protein goal.</li>
+            </ul>
+
+            <div class="footer-tip">
+                <strong>Latest Literature:</strong> Aim for 7-10 cups (300g to 570g) of vegetables daily. These provide essential potassium and magnesium to prevent the "Keto Flu."
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
