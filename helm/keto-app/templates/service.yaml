@@ -1,15 +1,11 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "keto-app.fullname" . }}
-  labels:
-    {{- include "keto-app.labels" . | nindent 4 }}
+  name: keto-service
 spec:
   type: {{ .Values.service.type }}
   ports:
     - port: {{ .Values.service.port }}
-      targetPort: http
-      protocol: TCP
-      name: http
+      targetPort: {{ .Values.service.targetPort }}
   selector:
     {{- include "keto-app.selectorLabels" . | nindent 4 }}
