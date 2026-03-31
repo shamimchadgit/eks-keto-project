@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: keto-app
-          image: "{{ Values.image.repository}}:{{ Values.image.tag}}"
+          image: "{{ .Values.image.repository}}:{{ Values.image.tag}}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           Ports:
             - containerPort: {{ .Values.service.targetPort }}
