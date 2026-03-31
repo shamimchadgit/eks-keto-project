@@ -64,7 +64,7 @@ resource "aws_route_table_association" "public_rt_as" {
 }
 # Route Table - Private
 resource "aws_route_table" "private_rt" {
-  count = length(aws_nat_gateway.nat_gw)  
+  count  = length(aws_nat_gateway.nat_gw)
   vpc_id = aws_vpc.main.id
 
   route {
