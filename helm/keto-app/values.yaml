@@ -3,7 +3,7 @@ replicaCount: 2
 image:
   repository: 317006682416.dkr.ecr.eu-west-2.amazonaws.com/keto-app
   pullPolicy: IfNotPresent
-  tag: "latest"
+  tag: "latest" ### Will change later
 
 service:
   type: ClusterIP
