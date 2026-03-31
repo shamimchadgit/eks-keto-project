@@ -8,3 +8,9 @@ module "eks" {
   private_subnet_ids = module.vpc.private_subnet_ids
   public_subnet_ids  = module.vpc.public_subnet_ids
 }
+
+module "external_dns" {
+  source = "./modules/external-dns"
+  hosted_zone_id = module.bootstrap.hosted_zone_id
+  eks_oidc_provider_arn = module.eks.oidc_provider_arn
+}
