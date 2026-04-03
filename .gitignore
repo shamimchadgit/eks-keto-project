@@ -1,0 +1,18 @@
+# Terraform 
+
+terraform/bootstrap/.terraform.lock.hcl
+terraform/bootstrap/.terraform/
+terraform/bootstrap/terraform.tfstate
+terraform/deployment/.terraform.lock.hcl
+terraform/deployment/.terraform/
+
+# Kubernetes
+
+helm/external-dns/
+
+# Python
+
+.DS_Store
+.vscode/
+app/.DS_Store
+app/__pycache__/
