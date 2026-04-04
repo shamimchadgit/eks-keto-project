@@ -13,3 +13,6 @@ serviceAccount:
   name: external-dns
   annotations:
     eks.amazonaws.com/role-arn: 
+
+# annotations are like sticky notes
+# essential telling external-dns to use aws eks role arn for the service account 
