@@ -10,7 +10,12 @@ module "eks" {
 }
 
 module "external_dns" {
-  source = "./modules/external-dns"
-  hosted_zone_id = module.bootstrap.hosted_zone_id
+  source                = "./modules/external-dns"
+  hosted_zone_id        = module.bootstrap.hosted_zone_id
   eks_oidc_provider_arn = module.eks.oidc_provider_arn
+  cluster_oidc_issuer_url = module.eks.cluster_oidc_issuer_url
+}
+
+module "bootstrap" {
+    source = "../bootstrap"
 }
