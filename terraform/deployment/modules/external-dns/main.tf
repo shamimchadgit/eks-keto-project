@@ -36,11 +36,8 @@ resource "aws_iam_role" "external_dns_role" {
                     "${replace(module.eks.cluster_oidc_issuer_url, "https://", "")}:sub" = "system:serviceaccount:external-dns:external-dns"
                 }
             }
-        }
-
-        ]
-    })
-  
+        }]
+    }) 
 }
 
 resource "aws_iam_role_policy_attachment" "external_dns_attach" {
