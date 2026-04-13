@@ -1,0 +1,14 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keto-app
+  namespace: argocd
+spec:
+  destination:
+    namespace:
+    server: https://kubernetes.default.svc
+
+  source:
+    repoURL:
+    path: helm/keto-app
+    targetRevision: HEAD
