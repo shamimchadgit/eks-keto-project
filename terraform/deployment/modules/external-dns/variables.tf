@@ -1,6 +1,6 @@
-variable "hosted_zone_id" {
+variable "hosted_zone_arn" {
   type        = string
-  description = "My hosted zone id"
+  description = "My hosted arn"
 }
 
 variable "eks_oidc_provider_arn" {
