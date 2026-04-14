@@ -11,7 +11,7 @@ resource "aws_iam_policy" "external_dns_policy" {
         "route53:ListHostedZones",
         "route53:ListResourceRecordSets"
       ],
-      Resource = var.hosted_zone_id
+      Resource = var.hosted_zone_arn
     }]
   })
 }
