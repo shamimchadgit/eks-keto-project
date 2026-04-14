@@ -14,7 +14,7 @@ ingress:
   enabled: true
   className: traefik 
   hosts:
-    - host: eks.shamimchaudhury.uk
+    - eks.shamimchaudhury.uk
   paths:
-    - path: /
+    - /
       
