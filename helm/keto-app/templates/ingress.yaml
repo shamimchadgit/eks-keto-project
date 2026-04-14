@@ -2,10 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: keto-ingress
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: {{ .Values.ingress.className }}
   rules: # Defining routing 
-    - host: {{ .Values.ingress.hosts.host }}
+    - host: {{ index .Values.ingress.hosts 0 }}
       http:
         paths:
           - path: {{ .Values.ingress.paths.path }}
@@ -15,5 +17,9 @@ spec:
                 name: keto-service
                 port: 
                   number: {{ .Values.service.port }}
+tls:
+  - hosts:
+      - {{ index .Values.ingress.hosts 0 }}
+    secretName: keto-tls
 
 # Now if request comes from eks.shamimchaudhury.uk it sends traffic to keto-service (my backend) 
