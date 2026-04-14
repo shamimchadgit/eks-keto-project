@@ -6,13 +6,14 @@ registry: txt
 txtOwnerId: keto-project
 
 domainFilters:
-  - shamimchaudhury.uk
+  - eks.shamimchaudhury.uk
 
 serviceAccount:
   create: true
   name: external-dns
   annotations:
-    eks.amazonaws.com/role-arn: 
+    eks.amazonaws.com/role-arn: ### need to put my external dns role arn
+
 
 # annotations are like sticky notes
 # telling external-dns to use aws eks role arn for the service account 
