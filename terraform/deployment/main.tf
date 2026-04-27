@@ -11,11 +11,17 @@ module "eks" {
 
 module "external_dns" {
   source                = "./modules/external-dns"
-  hosted_zone_arn        = module.bootstrap.hosted_zone_arn
+  hosted_zone_arn        = data.terraform_remote_state.bootstrap.outputs.hosted_zone_arn
   eks_oidc_provider_arn = module.eks.oidc_provider_arn
   cluster_oidc_issuer_url = module.eks.cluster_oidc_issuer_url
 }
 
-module "bootstrap" {
-    source = "../bootstrap"
+data "terraform_remote_state" "bootstrap" {
+    backend = "s3"
+
+    config = {
+      bucket = "eks-keto-tf-state-bucket"
+      key = "bootstrap/terraform.tfstate"
+      region = "eu-west-2"
+    }
 }
