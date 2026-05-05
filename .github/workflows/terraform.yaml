@@ -1,0 +1,43 @@
+name: Terraform
+
+on:
+  push:
+    paths:
+      - 'terraform/*'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v6
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v6.1.0
+        with:
+          role-to-assume:
+          aws-region: eu-west-2
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform/deployment
+
+      - name: Terraform Validate
+        run: terraform validate
+        working-directory: terraform/deployment
+
+      - name: Security Scan (Checkov)
+        uses: bridgecrewio/checkov-action@v12
+        with:
+          directory: terraform/
+
+
+    
