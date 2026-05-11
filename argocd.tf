@@ -13,5 +13,5 @@ server:
   service:
     type: LoadBalancer
 EOF
-  ]
+  ] # assign LB so can access dashboard from browser
 }
