@@ -10,7 +10,7 @@ spec:
     - host: {{ index .Values.ingress.hosts 0 }}
       http:
         paths:
-          - path: {{ .Values.ingress.paths.path }}
+          - path: {{ .Values.ingress.paths 0 }}
             pathType: Prefix
             backend:
               service:
